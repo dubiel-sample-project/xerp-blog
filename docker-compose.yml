@@ -10,7 +10,7 @@ services:
         volumes:
             - ./blog/:/var/www/blog/
         networks:
-            - blog
+            - app
     nginx:
         build:
             context: .
@@ -20,6 +20,23 @@ services:
         ports:
             - 8001:80
         networks:
-            - blog
+            - app
+    mysql:
+        image: mysql:5.7
+        container_name: mysql
+        environment:
+          MYSQL_DATABASE: 
+          MYSQL_ROOT_USER: root
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_HOST: localhost 
+        ports:
+          - "6033:3306"
+        volumes:
+          - dbdata:/var/lib/mysql
+        networks:
+            - app
+            
+volumes:
+    dbdata:
 networks:
-    blog:
+    app:
