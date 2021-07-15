@@ -1,0 +1,26 @@
+blog\View\partials\menu.phtml
+<?php use Blog\Session as Session; ?>
+<table>
+	<tr>
+		<td><a href="<?php echo $this->getUrl('index', 'index'); ?>">Startseite</a></td>
+		<?php if(!Session::getInstance()->isLoggedIn()){ ?>
+		
+		<td><a href="<?php echo $this->getUrl('index', 'login'); ?>">login</a></td>
+		
+		<?php } ?>
+		<?php if(Session::getInstance()->isLoggedIn()){ ?>
+		
+		<td><a href="<?php echo $this->getUrl('blog', 'add'); ?>">Add a blog</a></td>
+		
+		<?php } ?>
+		<td><a href="<?php echo $this->getUrl('author', 'index'); ?>">Authors</a></td>
+		<td><a href="<?php echo $this->getUrl('search', 'index'); ?>">Suche</a></td>
+		<?php if(Session::getInstance()->isLoggedIn()){ ?>
+		
+		<td><a href="<?php echo $this->getUrl('index', 'logout'); ?>">logout</a></td>
+		
+		<?php } ?>
+		
+		<td><a href="<?php echo $this->getUrl('contact', 'add'); ?>">Contact</a></td>
+	</tr>
+</table>

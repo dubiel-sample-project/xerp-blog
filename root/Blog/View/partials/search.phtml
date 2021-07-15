@@ -1,0 +1,11 @@
+blog\View\partials\search.phtml
+<form name="comment" method="get" action="">
+<div><input type="input" name="term" value="<?php echo $this->getFormField('term'); ?>"/></div>
+<input type="submit" name="senden" />
+			<input type="hidden" name="controller" value="<?php echo $this->getController(); ?>"/>
+			<input type="hidden" name="action" value="<?php echo $this->getAction(); ?>"/>
+				</form>
+<?php
+	$this->renderPartial('index.phtml', array('entries' => $this->entries)); 
+ ?>
+		

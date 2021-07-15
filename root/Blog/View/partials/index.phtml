@@ -1,0 +1,30 @@
+blog\View\partials\index.phtml
+<?php use Blog\Session as Session; ?>
+<div>
+	<table>
+<?php foreach ($this->entries as $key => $value): ?>
+<tr>
+	<td><a href="<?php echo $this->getUrl('index', 'detail', 'entry', $value->id); ?>"><?php echo $value->title; ?></a></td>
+	<td><?php echo date('d.m.Y H:i', $value->published_date); ?></td>
+</tr>
+<tr>	
+	<td colspan="2"><?php echo $value->text; ?></td>
+</tr>	
+<tr>
+	<td><a href="<?php echo $this->getUrl('index', 'author', 'author', $value->author_id); ?>"><?php echo $value->fullname; ?></a></td>
+	<td>Anzahl Kommentare: <?php echo $value->comment_count; ?></td>
+</tr>
+<?php if(Session::getInstance()->isLoggedIn() && $value->author_id == Session::getInstance()->get('author_id')){ ?>
+<tr>
+	<td><a href="<?php echo $this->getUrl('blog', 'edit', 'entry', $value->id); ?>">Edit</a></td>
+	<td><a href="<?php echo $this->getUrl('blog', 'delete', 'entry', $value->id); ?>">delete</a></td>
+</tr>
+<?php } ?>
+<?php endforeach ?>
+	</table>
+</div>
+<?php if (!empty($this->entryId)) { ?>
+<br/>
+<?php
+	$this->renderPartial('comment.phtml', array('comments' => $this->comments, 'entryId' => $this->entryId, 'formToken' =>	uniqid('f'))); 
+} ?>

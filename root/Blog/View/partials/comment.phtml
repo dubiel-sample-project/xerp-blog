@@ -1,0 +1,69 @@
+blog\View\partials\comment.phtml
+<div>
+	<table>
+<?php foreach ($this->comments as $key => $value): ?>
+<tr>
+	<td><b><?php echo $value->name; ?></b></td>
+	<td><?php echo $value->title; ?></td>
+</tr>
+<tr>	
+	<td colspan="2"><?php echo $value->content; ?></td>
+</tr>	
+<tr>
+	<td><a href="<?php echo $value->email; ?>"><?php echo $value->email; ?></a></td>
+	<td><a href="<?php echo $value->url; ?>"><?php echo $value->url; ?></a></td>
+</tr>	
+<tr>	
+	<td colspan="2">&nbsp;</td>
+</tr>	
+<?php endforeach ?>
+	</table>
+</div>
+<br/>
+<div>
+	<form name="comment" method="post" action="<?php echo $this->getUrl($this->getController(), $this->getAction(), 'entry', $this->entryId); ?>">
+		<table>
+                        <tr>
+                            <td colspan="2">Add a new Comment:</td>
+                        </tr>
+			<tr>
+				<td>
+                                    Name *
+                                    <br/>
+                                    <b><?php if($this->hasError('name')) echo $this->getError('name'); ?></b>
+                                </td>
+				<td><input type="input" name="name" value="<?php echo $this->getFormField('name'); ?>"/></td>
+			</tr>
+			<tr>
+				<td>
+                                   Title *
+                                    <br/>
+                                    <b><?php if($this->hasError('title')) echo $this->getError('title'); ?></b>
+                                </td>
+				<td><input type="input" name="title" value="<?php echo $this->getFormField('title'); ?>"/></td>
+			</tr>
+			<tr>
+				<td>Email</td>
+				<td><input type="input" name="email" value="<?php echo $this->getFormField('email'); ?>"/></td>
+			</tr>
+			<tr>
+				<td>Url</td>
+				<td><input type="input" name="url" value="<?php echo $this->getFormField('url'); ?>"/></td>
+			</tr>
+			<tr>
+				<td>
+                                    Text *
+                                    <br/>
+                                    <b><?php if($this->hasError('content')) echo $this->getError('content'); ?></b>
+                                </td>
+				<td><textarea name="content"><?php echo $this->getFormField('content'); ?></textarea></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" name="senden" /></td>
+			</tr>
+		</table>
+		<input type="hidden" name="action" value="addcomment"/>
+		<input type="hidden" name="entry" value="<?php echo $this->entryId; ?>"/>
+		<input type="hidden" name="fToken" value="<?php echo $this->formToken; ?>"/>
+	</form>
+</div>

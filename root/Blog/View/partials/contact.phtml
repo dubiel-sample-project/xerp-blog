@@ -1,0 +1,44 @@
+blog\View\partials\contact.phtml
+<div>
+	<form name="contact" method="post" action="">
+		<table>
+                        <tr>
+                            <td colspan="2">Authors: *
+                            					<br/>
+					<b><?php if($this->hasError('author')) echo $this->getError('author'); ?></b></td>
+                        </tr>
+                        <tr>
+                        	<td>
+                        		<select name="author">
+                        			  <option value="" selected>choose author</option>
+<?php foreach ($this->authors as $key => $value): ?>
+
+
+  <option value="<?php echo $value->id; ?>"><?php echo $value->fullname; ?></option>
+
+
+<?php endforeach ?>
+</select>
+</tr>	
+			<tr>
+				<td>Your email: *</td>
+				<td><input type="input" name="email" value="<?php echo $this->getFormField('email'); ?>"/>
+					<br/>
+					<b><?php if($this->hasError('email')) echo $this->getError('email'); ?></b>
+				</td>
+			</tr>
+			<tr>
+				<td>
+                                     Message: *
+                                    <br/>
+                                    <b><?php if($this->hasError('message')) echo $this->getError('message'); ?></b>
+                                </td>
+				<td><textarea name="message"><?php echo $this->getFormField('message'); ?></textarea></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" name="senden" /></td>
+			</tr>
+		</table>
+		<input type="hidden" name="action" value="addentry"/>
+	</form>
+</div>

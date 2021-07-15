@@ -1,0 +1,32 @@
+blog\View\partials\blog.phtml
+<?php use Blog\Session as Session; ?>
+<div>
+	<form name="addentry" method="post" action="">
+		<table>
+                        <tr>
+                            <td colspan="2"><?php echo $this->title; ?> an entry:</td>
+                        </tr>
+			<tr>
+				<td>
+                                   Title *
+                                    <br/>
+                                    <b><?php if($this->hasError('title')) echo $this->getError('title'); ?></b>
+                                </td>
+				<td><input type="input" name="title" value="<?php echo $this->getFormField('title'); ?>"/></td>
+			</tr>
+			<tr>
+				<td>
+                                    Text *
+                                    <br/>
+                                    <b><?php if($this->hasError('text')) echo $this->getError('text'); ?></b>
+                                </td>
+				<td><textarea name="text"><?php echo $this->getFormField('text'); ?></textarea></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" name="senden" /></td>
+			</tr>
+		</table>
+		<input type="hidden" name="action" value="addentry"/>
+		<input type="hidden" name="author" value="<?php echo Session::getInstance()->get('author_id'); ?>"/>
+	</form>
+</div>
