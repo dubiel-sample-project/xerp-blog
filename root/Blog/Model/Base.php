@@ -3,23 +3,20 @@ namespace Blog\Model;
 
 abstract class Base
 {
-	public static $USER = 'blog';
-	public static $PASSWORD = 'blog';
-	public static $HOST = '127.0.0.1';
+	public static $USER = 'root';
+	public static $PASSWORD = 'root';
+	public static $HOST = 'mysql';
 	public static $DB = 'blog';
 	
 	abstract protected function getEntity();
 	
 	protected $tableName;
-	protected $_link;
+	protected $pdo;
 
 	public function __construct()
-	{
-		//$this->_link = mysqli_connect(self::$HOST, self::$USER, self::$PASSWORD);
-		
+	{	
 		$dsn = 'mysql:dbname='.self::$DB.';host='.self::$HOST;
-		$this->_link = new \PDO($dsn, self::$USER, self::$PASSWORD);
-		//mysqli_select_db(self::$DB, $this->_link);
+		$this->pdo = new \PDO($dsn, self::$USER, self::$PASSWORD);
 	} 
 	
 	public function getTableName()
@@ -39,7 +36,7 @@ abstract class Base
 		return '';	
 	}
 	
-	public function fetchById($ids)
+	public function fetchById(array $ids)
 	{
 		$ids = implode(',', $ids);
 		$query = sprintf("SELECT %s FROM %s %s %s", '*', $this->tableName, "WHERE id IN = ($ids)", 'LIMIT 0,');
@@ -52,21 +49,19 @@ abstract class Base
 		return '';	
 	}
 	
-	public function query($query)
+	public function query(string $query, array $params)
 	{
-		$result = mysqli_query($query, $this->_link);
-		if(is_resource($result))
-		{
-			return $result;
-		}        
-		
-		return '';	
+		$stmt = $this->pdo->prepare($query);
+		$ret = $stmt->execute($params);
+		var_dump($ret);
+		var_dump($stmt->debugDumpParams());
+		return $stmt->fetchAll();	
 	} 
 	
-	public function parse($result)
+	public function parse(array $result)
 	{
-		$entities = array();
-		while($row = mysqli_fetch_assoc($result))
+		$entities = [];
+		foreach($result as $row)
 		{
 			$entity = $this->getEntity();
 			$entity->map($row);
@@ -135,5 +130,10 @@ abstract class Base
 	protected function getDeleteQuery($id)
 	{
 		return sprintf("DELETE FROM %s WHERE id = %s", $this->tableName, $id);
+	}
+	
+	protected function appendQuery(string $query, string $stmt)
+	{
+		return $query." {$stmt} ";
 	}
 }

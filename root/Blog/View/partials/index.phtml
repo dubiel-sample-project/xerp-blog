@@ -1,4 +1,3 @@
-blog\View\partials\index.phtml
 <?php use Blog\Session as Session; ?>
 <div>
 	<table>
@@ -14,7 +13,7 @@ blog\View\partials\index.phtml
 	<td><a href="<?php echo $this->getUrl('index', 'author', 'author', $value->author_id); ?>"><?php echo $value->fullname; ?></a></td>
 	<td>Anzahl Kommentare: <?php echo $value->comment_count; ?></td>
 </tr>
-<?php if(Session::getInstance()->isLoggedIn() && $value->author_id == Session::getInstance()->get('author_id')){ ?>
+<?php if(Session::getInstance()->isLoggedIn() && $value->author_id === Session::getInstance()->get('author_id')){ ?>
 <tr>
 	<td><a href="<?php echo $this->getUrl('blog', 'edit', 'entry', $value->id); ?>">Edit</a></td>
 	<td><a href="<?php echo $this->getUrl('blog', 'delete', 'entry', $value->id); ?>">delete</a></td>

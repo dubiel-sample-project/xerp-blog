@@ -1,7 +1,7 @@
 <?php
 namespace Blog\View;
 
-final class Blog extends Base
+final class Search extends Base
 {
 	public function __construct()
 	{

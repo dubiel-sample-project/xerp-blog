@@ -16,28 +16,30 @@ final class Comment extends Base implements iModel
 		
 		$this->tableName = 'comment';
 		$this->selectQuery = "
-				SELECT id, name, email, url, title, content, entry FROM comment %s %s %s
+				SELECT id, name, email, url, title, content, entry FROM comment
 			"; 
 	}
 	
 	public function fetchAll()
 	{
-		$query = sprintf($this->selectQuery, "WHERE 1=1", "", "");
-		return $this->parse($this->query($query));	
+		$query = $this->appendQuery($this->selectQuery, 'WHERE 1=1');
+		return $this->parse($this->query($query, []));	
 	}
 
-	public function fetchById($ids)
+	public function fetchById(array $ids)
 	{
-		$ids = implode(',', $ids);
-		$query = sprintf($this->selectQuery, "WHERE id IN ($ids)", "", "");
-		return $this->parse($this->query($query));	
+		return $this->fetch($ids);
 	}
 	
-	public function fetchByEntry($ids)
+	public function fetchByEntry(array $ids)
 	{
-		$ids = implode(',', $ids);
-		$query = sprintf($this->selectQuery, "WHERE entry IN ($ids)", "", "");
-		return $this->parse($this->query($query));	
+		return $this->fetch($ids);
 	}
         
+	private function fetch(array $ids)
+	{
+		$ids = implode(',', $ids);
+		$query = $this->appendQuery($this->selectQuery, 'WHERE e.id IN ($ids)');
+		return $this->parse($this->query($query, []));
+	}	
 }

@@ -4,8 +4,8 @@ namespace Blog\Model;
 interface iModel
 {
 	public function fetchAll();
-	public function fetchById($arr);
-	public function save($arr);
-	public function edit($arr, $id);
-	public function delete($id);
+	public function fetchById(array $arr);
+	public function save(array $arr);
+	public function edit(array $arr, string $id);
+	public function delete(string $id);
 }

@@ -17,29 +17,29 @@ class Index extends Base
 	
 	public function detailAction()
 	{
-		$model = new Model\Entry;
+		$entryModel = new Model\Entry;
 		$commentModel = new Model\Comment;
 		
 		$id = $_GET['entry'];
 		$this->view->entryId = $id;
 		
-		$this->view->comments = $commentModel->fetchByEntry(array($id));
-		$this->view->entries = $model->fetchById(array($id));
-		
-		if(isset($_POST['action']) && strtolower($_POST['action']) == 'addcomment') 
-                {
-                    $form = new Form\Comment;
-                    $form->validate($_POST);
+		$this->view->comments = $commentModel->fetchByEntry([$id]);
+		$this->view->entries = $entryModel->fetchById([$id]);
+			
+		if(isset($_POST['action']) && strtolower($_POST['action']) === 'addcomment') 
+		{
+			$form = new Form\Comment;
+			$form->validate($_POST);
 
-                    if($form->hasErrors())
-                    {
-                        $this->view->add(array('error' => $form->getErrors()));
-                        $this->view->add(array('form' => $_POST));
-                    } else {
-                        $commentModel->save($_POST);
-                        $this->redirect('Index', 'detail', 'entry', $id);
-                    }
-                }    
+			if($form->hasErrors())
+			{
+				$this->view->add(['error' => $form->getErrors()]);
+				$this->view->add(['form' => $_POST]);
+			} else {
+				$commentModel->save($_POST);
+				$this->redirect('Index', 'detail', 'entry', $id);
+			}
+		}    
 		
 		$this->view->render();
 	}
@@ -49,7 +49,7 @@ class Index extends Base
 		$model = new Model\Entry;
 		
 		$id = $_GET['author'];
-		$this->view->entries = $model->fetchByAuthor(array($id));
+		$this->view->entries = $model->fetchByAuthor([$id]);
 		$this->view->render();
 	}
 	
@@ -60,12 +60,14 @@ class Index extends Base
 		$name = $_POST['name'];
 		$pass = $_POST['pass'];
 		
-		if(!empty($name) && !empty($pass)){
-
-		  if($authorId = $model->fetchByLogin($name, $pass)){
-		  	Session::getInstance()->set('author_id', $authorId);
-			  $this->redirect('Index', 'index');
-		  }			
+		if(!empty($name) && !empty($pass))
+		{
+			$authorId = $model->fetchByLogin($name, $pass);
+			if(!empty($authorId))
+			{
+				Session::getInstance()->set('author_id', $authorId);
+				  $this->redirect('Index', 'index');
+			}			
 		}
 		$this->view->setPartialName('login.phtml');
 		$this->view->render();
