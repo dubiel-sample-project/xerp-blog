@@ -2,28 +2,26 @@
 namespace Blog\Model;
 use Blog\Model\Entities\BaseEntity;
 
-final class Comment extends BaseModel implements iModel
+final class CommentModel extends BaseModel implements iModel
 {
-	private $selectQuery;
-	
 	protected function getEntity() : BaseEntity 
 	{
 		return new Entities\CommentEntity();		
 	}
 	
-	public function __construct()
+	protected function getSelectQuery() : string
 	{
-		parent::__construct();
-		
-		$this->tableName = 'comment';
-		$this->selectQuery = "
-				SELECT id, name, email, url, title, content, entry FROM comment
-			"; 
+		return "SELECT id, name, email, url, title, content, entry FROM comment"; 
+	}
+	
+	protected function getTableName() : string
+	{
+		return 'comment';
 	}
 	
 	public function fetchAll() : array
 	{
-		$query = $this->appendQuery($this->selectQuery, 'WHERE 1=1');
+		$query = $this->appendQuery($this->getSelectQuery(), 'WHERE 1=1');
 		return $this->parse($this->query($query, []));	
 	}
 
@@ -40,7 +38,7 @@ final class Comment extends BaseModel implements iModel
 	private function fetch(array $ids) : array
 	{
 		$ids = implode(',', $ids);
-		$query = $this->appendQuery($this->selectQuery, 'WHERE e.id IN ($ids)');
+		$query = $this->appendQuery($this->getSelectQuery(), "WHERE entry IN ($ids)");
 		return $this->parse($this->query($query, []));
 	}	
 }

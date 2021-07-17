@@ -25,5 +25,5 @@
 <?php if (!empty($this->entryId)) { ?>
 <br/>
 <?php
-	$this->renderPartial('comment.phtml', array('comments' => $this->comments, 'entryId' => $this->entryId, 'formToken' =>	uniqid('f'))); 
+	$this->renderPartial('comment.phtml', ['comments' => $this->comments, 'entryId' => $this->entryId, 'formToken' =>	uniqid('f')]); 
 } ?>

@@ -46,7 +46,7 @@ abstract class BaseView
 		return $this->partialName;
 	}
 	
-	public function setPartialName(string $name) : string
+	public function setPartialName(string $name)
 	{
 		$this->partialName = $name;
 	}
@@ -80,15 +80,15 @@ abstract class BaseView
 			$str .= $args[$i].'='.$args[$i+1].'&';
 		}
 		
-		return substr("index.php?controller=$controllerName&action=$actionName&".$str, 0, -1);
+		return substr("index.php?controller={$controllerName}&action={$actionName}&".$str, 0, -1);
 	}
         
-	public function hasError($fieldName) : bool
+	public function hasError(string $fieldName) : bool
 	{
 		return isset($this->error[$fieldName]) && $this->error[$fieldName];
 	}
 
-	public function getError($fieldName) : string
+	public function getError(string $fieldName) : string
 	{
 		if(isset($this->error[$fieldName]))
 			return $this->error[$fieldName];
@@ -96,7 +96,7 @@ abstract class BaseView
 		return '';
 	}
 
-	public function getFormField($fieldName) : string
+	public function getFormField(string $fieldName) : string
 	{
 		if(isset($this->form[$fieldName]))
 			return $this->form[$fieldName];
@@ -111,7 +111,7 @@ abstract class BaseView
 		$this->postRender();
 	}
 	
-	public function renderPartial($partialName, $args)
+	public function renderPartial(string $partialName, array $args)
 	{
 		foreach($args as $key => $val)
 		{

@@ -10,8 +10,9 @@ abstract class BaseModel
 	public static string $DB = 'blog';
 	
 	abstract protected function getEntity() : BaseEntity;
-	
-	protected string $tableName;
+	abstract protected function getSelectQuery() : string;
+	abstract protected function getTableName() : string;
+
 	protected \PDO $pdo;
 
 	public function __construct()
@@ -19,36 +20,6 @@ abstract class BaseModel
 		$dsn = 'mysql:dbname='.self::$DB.';host='.self::$HOST;
 		$this->pdo = new \PDO($dsn, self::$USER, self::$PASSWORD);
 	} 
-	
-	public function getTableName() : string
-	{
-		return $this->tableName;
-	}
-	
-	public function fetchAll(): array
-	{
-		$query = sprintf("SELECT %s FROM %s %s %s", '*', $this->tableName, 'WHERE 1=1', 'LIMIT 0,');
-		$result = mysqli_query($query, $this->_link);
-		if(is_resource($result))
-		{
-			return $result;
-		}        
-		
-		return '';	
-	}
-	
-	public function fetchById(array $ids): array
-	{
-		$ids = implode(',', $ids);
-		$query = sprintf("SELECT %s FROM %s %s %s", '*', $this->tableName, "WHERE id IN = ($ids)", 'LIMIT 0,');
-		$result = mysqli_query($query, $this->_link);
-		if(is_resource($result))
-		{    
-			return $result;
-		}        
-		
-		return '';	
-	}
 	
 	public function query(string $query, array $params): array
 	{
@@ -69,25 +40,7 @@ abstract class BaseModel
 		return $entities;
 	}
 
-	public function save(array $arr)
-	{
-		$query = $this->getSaveQuery($arr);
-		$this->query($query);
-	}
-        
-	public function edit(array $arr, string $id)
-	{
-		$query = $this->getEditQuery($arr, $id);
-		$this->query($query);
-	}
-        
-	public function delete(string $id)
-	{
-		$query = $this->getDeleteQuery($id);
-		$this->query($query);
-	}        
-	
-	protected function getSaveQuery(array $arr) : string
+	public function save(array $arr) : bool
 	{
 		$dataMap = $this->getEntity()->getDataMap();
 		$columns = [];
@@ -97,16 +50,16 @@ abstract class BaseModel
 			if(!isset($dataMap[$key]))
 				continue;
 			
-			$key = mysqli_real_escape_string($key);
 			$columns[] = $key;
-
-			$val = mysqli_real_escape_string($val);
 			$values[] = (is_numeric($val)) ? $val : "'$val'";
 		}
-		return sprintf("INSERT INTO %s (%s) VALUES (%s)", $this->tableName, implode(',', $columns), implode(',', $values));
+		
+		$stmt = $this->pdo->prepare("INSERT INTO :tablename (:columns) VALUES (:values)");
+		return $stmt->execute([':tablename' => $this->getTableName(), ':columns' => implode(',', $columns), 
+			':values' => implode(',', $values)]);
 	}
         
-	protected function getEditQuery(array $arr, string $id) : string
+	public function edit(array $arr, string $id)
 	{
 		$dataMap = $this->getEntity()->getDataMap();
 		$str = '';
@@ -115,17 +68,24 @@ abstract class BaseModel
 			if(!isset($dataMap[$key]))
 				continue;
 
-			$key = mysqli_real_escape_string($key);
-			$val = mysqli_real_escape_string($val);
 			$str .= (is_numeric($val)) ? "$key = $val," : "$key = '$val',";
 		}
 		$str = substr($str, 0, -1);
-		return sprintf("UPDATE %s SET %s WHERE id = %s", $this->tableName, $str, $id);
+		
+		$stmt = $this->pdo->prepare("UPDATE :tablename SET :values WHERE id = :id", );
+		return $stmt->execute([':tablename' => $this->getTableName(), ':values' => $str, 
+			':id' => $id]);
 	}
-
+        
+	public function delete(string $id) : bool
+	{
+		$stmt = $this->pdo->prepare($this->getDeleteQuery($id));
+		return $stmt->execute($params);
+	}        
+	
 	protected function getDeleteQuery(string $id) : string
 	{
-		return sprintf("DELETE FROM %s WHERE id = %s", $this->tableName, $id);
+		return sprintf("DELETE FROM %s WHERE id = %s", $this->getTableName(), $id);
 	}
 	
 	protected function appendQuery(string $query, string $stmt) : string

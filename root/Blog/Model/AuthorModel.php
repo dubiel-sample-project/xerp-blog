@@ -4,25 +4,24 @@ use Blog\Model\Entities\BaseEntity;
 
 final class AuthorModel extends BaseModel implements iModel
 {
-	private string $selectQuery;
-	
 	protected function getEntity() : BaseEntity
 	{
-		return new Entities\Author();		
+		return new Entities\AuthorEntity();		
 	}
 	
-	public function __construct()
+	protected function getSelectQuery() : string
 	{
-		parent::__construct();
-		$this->tableName = 'author';
-		$this->selectQuery = "
-				SELECT id, concat(firstname, ' ', lastname) as fullname, email, url FROM author
-			"; 
+		return "SELECT id, concat(firstname, ' ', lastname) as fullname, email, url FROM author";
+	}
+	
+	protected function getTableName() : string
+	{
+		return 'author';
 	}
 	
 	public function fetchAll() : array
 	{
-		$query = $this->appendQuery($this->selectQuery, 'WHERE 1=1');
+		$query = $this->appendQuery($this->getSelectQuery(), 'WHERE 1=1');
 		$query = $this->appendQuery($query, 'ORDER BY lastname');
 		return $this->parse($this->query($query, []));	
 	}
@@ -30,7 +29,7 @@ final class AuthorModel extends BaseModel implements iModel
 	public function fetchById(array $ids) : array
 	{
 		$ids = implode(',', $ids);
-		$query = $this->appendQuery($this->selectQuery, "WHERE e.id IN ($ids)");
+		$query = $this->appendQuery($this->getSelectQuery(), "WHERE e.id IN ($ids)");
 		$query = $this->appendQuery($query, 'ORDER BY lastname');
 		return $this->parse($this->query($query, []));	
 	}

@@ -7,7 +7,7 @@ final class AuthorController extends BaseController
 {
 	public function indexAction()
 	{
-		$model = new Model\Author;
+		$model = new Model\AuthorModel;
 
 		$this->view->authors = $model->fetchAll();
 		$this->view->render();

@@ -7,7 +7,7 @@ final class SearchController extends BaseController
 {
 	public function indexAction()
 	{
-		$model = new Model\Entry;
+		$model = new Model\EntryModel;
 		
 		$term = $_GET['term'];
 		

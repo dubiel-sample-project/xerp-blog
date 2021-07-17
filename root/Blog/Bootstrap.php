@@ -23,7 +23,7 @@ class Bootstrap
 		$actionName = 'indexAction';
 			
 		if(isset($_GET['controller']))
-			$controllerName = ucfirst($_GET['controller']); 
+			$controllerName = ucfirst($_GET['controller']).'Controller'; 
 
 		if(isset($_GET['action']))
 			$actionName = strtolower($_GET['action']).'Action';

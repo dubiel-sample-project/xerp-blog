@@ -4,26 +4,26 @@ namespace Blog\Controller;
 use Blog\Model as Model;
 use Blog\Form as Form;
 
-class ContactController extends BaseController 
+final class ContactController extends BaseController 
 {
 	public function indexAction() 
 	{
 		$this->view->render();
 	}
 
-	public function addAction() {
-
-		$model = new Model\Author;
+	public function addAction() 
+	{
+		$model = new Model\AuthorModel;
 
 		$this -> view -> authors = $model -> fetchAll();
-		//$this -> view -> render();
-
-		if (isset($_POST['action']) && strtolower($_POST['action']) === 'addentry') {
-			$form = new Form\Contact;
+		
+		if (isset($_POST['action']) && strtolower($_POST['action']) === 'addentry') 
+		{
+			$form = new Form\ContactForm;
 			$form->validate($_POST);
 
-			if ($form->hasErrors()) {
-		
+			if ($form->hasErrors()) 
+			{
 				$this->view->add(array('error' => $form -> getErrors()));
 				$this->view->add(array('form' => $_POST));
 
