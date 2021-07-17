@@ -2,9 +2,9 @@
 namespace Blog\Controller;
 use Blog\View as View;
 
-abstract class Base
+abstract class BaseController
 {
-	protected $view;
+	protected View\iView $view;
 	
 	public function __call($name, $args)
 	{
@@ -36,7 +36,7 @@ abstract class Base
 	
 	public function initView()
 	{
-		$className = get_class($this);
+		$className = str_replace('Controller', 'View', get_class($this));
 		$viewFQN = 'Blog\View\\'.substr($className, strrpos($className, '\\') + 1);
 		$this->view = new $viewFQN;
 	}

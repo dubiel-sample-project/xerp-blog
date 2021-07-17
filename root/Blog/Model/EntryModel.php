@@ -1,13 +1,14 @@
 <?php
 namespace Blog\Model;
+use Blog\Model\Entities\BaseEntity;
 
-final class Entry extends Base implements iModel
+final class EntryModel extends BaseModel implements iModel
 {
 	private $selectQuery;
 	
-	protected function getEntity()
+	protected function getEntity() : BaseEntity
 	{
-		return new Entities\Entry();		
+		return new Entities\EntryEntity();		
 	}
 	
 	public function __construct()
@@ -22,7 +23,7 @@ final class Entry extends Base implements iModel
 				"; 
 	}
 	
-	public function fetchAll()
+	public function fetchAll() : array
 	{
 		$query = $this->appendQuery($this->selectQuery, 'WHERE 1=1');
 		$query = $this->appendQuery($query, 'ORDER BY e.published_date DESC');
@@ -30,7 +31,7 @@ final class Entry extends Base implements iModel
 		return $this->parse($this->query($query, []));	
 	}
 
-	public function fetchById(array $ids)
+	public function fetchById(array $ids) : array
 	{
 		$ids = implode(',', $ids);
 		$query = $this->appendQuery($this->selectQuery, "WHERE e.id IN ($ids)");
@@ -38,7 +39,7 @@ final class Entry extends Base implements iModel
 		return $this->parse($this->query($query, []));	
 	}
 	
-	public function fetchByAuthor(array $ids)
+	public function fetchByAuthor(array $ids) : array
 	{
 		$ids = implode(',', $ids);
 		$query = $this->appendQuery($this->selectQuery, "WHERE a.id IN ($ids)");
@@ -46,11 +47,10 @@ final class Entry extends Base implements iModel
 		return $this->parse($this->query($query, []));	
 	}
 	
-	public function fetchBySearch($term)
+	public function fetchBySearch($term): array
 	{
 		$query = $this->appendQuery($this->selectQuery, 'WHERE e.text like :term');
 		$query = $this->appendQuery($query, 'ORDER BY e.published_date DESC');
-		var_dump($query);
 		return $this->parse($this->query($query, [':term' => "%$term%"]));	
 	}
      

@@ -1,7 +1,7 @@
 <?php
 namespace Blog\Model\Entities;
 
-final class Entry extends Base
+final class EntryEntity extends BaseEntity
 {
 	public function __construct()
 	{

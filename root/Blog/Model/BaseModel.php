@@ -1,17 +1,18 @@
 <?php
 namespace Blog\Model;
+use Blog\Model\Entities\BaseEntity;
 
-abstract class Base
+abstract class BaseModel
 {
-	public static $USER = 'root';
-	public static $PASSWORD = 'root';
-	public static $HOST = 'mysql';
-	public static $DB = 'blog';
+	public static string $USER = 'root';
+	public static string $PASSWORD = 'root';
+	public static string $HOST = 'mysql';
+	public static string $DB = 'blog';
 	
-	abstract protected function getEntity();
+	abstract protected function getEntity() : BaseEntity;
 	
-	protected $tableName;
-	protected $pdo;
+	protected string $tableName;
+	protected \PDO $pdo;
 
 	public function __construct()
 	{	
@@ -19,12 +20,12 @@ abstract class Base
 		$this->pdo = new \PDO($dsn, self::$USER, self::$PASSWORD);
 	} 
 	
-	public function getTableName()
+	public function getTableName() : string
 	{
 		return $this->tableName;
 	}
 	
-	public function fetchAll()
+	public function fetchAll(): array
 	{
 		$query = sprintf("SELECT %s FROM %s %s %s", '*', $this->tableName, 'WHERE 1=1', 'LIMIT 0,');
 		$result = mysqli_query($query, $this->_link);
@@ -36,7 +37,7 @@ abstract class Base
 		return '';	
 	}
 	
-	public function fetchById(array $ids)
+	public function fetchById(array $ids): array
 	{
 		$ids = implode(',', $ids);
 		$query = sprintf("SELECT %s FROM %s %s %s", '*', $this->tableName, "WHERE id IN = ($ids)", 'LIMIT 0,');
@@ -49,16 +50,14 @@ abstract class Base
 		return '';	
 	}
 	
-	public function query(string $query, array $params)
+	public function query(string $query, array $params): array
 	{
 		$stmt = $this->pdo->prepare($query);
 		$ret = $stmt->execute($params);
-		var_dump($ret);
-		var_dump($stmt->debugDumpParams());
 		return $stmt->fetchAll();	
 	} 
 	
-	public function parse(array $result)
+	public function parse(array $result): array
 	{
 		$entities = [];
 		foreach($result as $row)
@@ -70,28 +69,25 @@ abstract class Base
 		return $entities;
 	}
 
-	public function save($arr)
+	public function save(array $arr)
 	{
 		$query = $this->getSaveQuery($arr);
-		var_dump($query);
 		$this->query($query);
 	}
         
-	public function edit($arr, $id)
+	public function edit(array $arr, string $id)
 	{
 		$query = $this->getEditQuery($arr, $id);
-		var_dump($query);
 		$this->query($query);
 	}
         
-	public function delete($id)
+	public function delete(string $id)
 	{
 		$query = $this->getDeleteQuery($id);
-		var_dump($query);
 		$this->query($query);
 	}        
 	
-	protected function getSaveQuery($arr)
+	protected function getSaveQuery(array $arr) : string
 	{
 		$dataMap = $this->getEntity()->getDataMap();
 		$columns = [];
@@ -110,7 +106,7 @@ abstract class Base
 		return sprintf("INSERT INTO %s (%s) VALUES (%s)", $this->tableName, implode(',', $columns), implode(',', $values));
 	}
         
-	protected function getEditQuery($arr, $id)
+	protected function getEditQuery(array $arr, string $id) : string
 	{
 		$dataMap = $this->getEntity()->getDataMap();
 		$str = '';
@@ -127,12 +123,12 @@ abstract class Base
 		return sprintf("UPDATE %s SET %s WHERE id = %s", $this->tableName, $str, $id);
 	}
 
-	protected function getDeleteQuery($id)
+	protected function getDeleteQuery(string $id) : string
 	{
 		return sprintf("DELETE FROM %s WHERE id = %s", $this->tableName, $id);
 	}
 	
-	protected function appendQuery(string $query, string $stmt)
+	protected function appendQuery(string $query, string $stmt) : string
 	{
 		return $query." {$stmt} ";
 	}

@@ -1,7 +1,7 @@
 <?php
 namespace Blog\Form\Validator;
 
-class Required extends Base
+class RequiredValidator extends BaseValidator
 {
 	public function __construct() 
 	{

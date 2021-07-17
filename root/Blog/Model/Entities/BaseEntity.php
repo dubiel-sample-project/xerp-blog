@@ -1,10 +1,10 @@
 <?php
 namespace Blog\Model\Entities;
 
-abstract class Base
+abstract class BaseEntity
 {
-	protected $dataMap = [];
-	protected $data = [];
+	protected array $dataMap = [];
+	protected array $data = [];
 	
 	public function __get($name)
 	{
@@ -19,7 +19,7 @@ abstract class Base
 		$this->data[strtolower($name)] = $value;
 	}
         
-	public function getDataMap()
+	public function getDataMap() : array
 	{
 		return $this->dataMap;
 	}

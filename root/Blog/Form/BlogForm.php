@@ -1,11 +1,10 @@
 <?php
 namespace Blog\Form;
 
-class Comment extends Base
+final class BlogForm extends BaseForm
 {
 	public function __construct()
 	{
-		$this->addValidator('name', new Validator\Required);
 		$this->addValidator('title', new Validator\Required);
 		$this->addValidator('content', new Validator\Required);
 	}	

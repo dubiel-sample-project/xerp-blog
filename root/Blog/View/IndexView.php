@@ -1,7 +1,7 @@
 <?php
 namespace Blog\View;
 
-final class Index extends Base
+final class IndexView extends BaseView implements iView
 {
 	public function __construct()
 	{

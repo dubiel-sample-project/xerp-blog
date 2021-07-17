@@ -1,7 +1,7 @@
 <?php
 namespace Blog\View;
 
-final class Blog extends Base
+final class BlogView extends BaseView implements iView
 {
 	public function __construct()
 	{

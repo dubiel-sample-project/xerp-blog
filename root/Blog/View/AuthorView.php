@@ -1,7 +1,7 @@
 <?php
 namespace Blog\View;
 
-final class Author extends Base implements iView
+final class AuthorView extends BaseView implements iView
 {
 	public function __construct()
 	{

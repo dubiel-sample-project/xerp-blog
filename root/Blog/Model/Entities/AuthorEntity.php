@@ -1,7 +1,7 @@
 <?php
 namespace Blog\Model\Entities;
 
-final class Author extends Base
+final class Author extends BaseEntity
 {
 	public function __construct()
 	{

@@ -5,11 +5,11 @@ use Blog\Model as Model;
 use Blog\Form as Form;
 use Blog\Session as Session;
 
-class Index extends Base
+final class IndexController extends BaseController
 {
 	public function indexAction()
 	{
-		$model = new Model\Entry;
+		$model = new Model\EntryModel;
 
 		$this->view->entries = $model->fetchAll();
 		$this->view->render();
@@ -17,8 +17,8 @@ class Index extends Base
 	
 	public function detailAction()
 	{
-		$entryModel = new Model\Entry;
-		$commentModel = new Model\Comment;
+		$entryModel = new Model\EntryModel;
+		$commentModel = new Model\CommentModel;
 		
 		$id = $_GET['entry'];
 		$this->view->entryId = $id;
@@ -46,7 +46,7 @@ class Index extends Base
 	
 	public function authorAction()
 	{
-		$model = new Model\Entry;
+		$model = new Model\EntryModel;
 		
 		$id = $_GET['author'];
 		$this->view->entries = $model->fetchByAuthor([$id]);
@@ -55,7 +55,7 @@ class Index extends Base
 	
 	public function loginAction()
 	{
-		$model = new Model\Author;
+		$model = new Model\AuthorModel;
 		
 		$name = $_POST['name'];
 		$pass = $_POST['pass'];
@@ -75,7 +75,7 @@ class Index extends Base
 	
 	public function logoutAction()
 	{
-	  Session::getInstance()->destroy();
-      $this->redirect('Index', 'index');
+		Session::getInstance()->destroy();
+		$this->redirect('Index', 'index');
 	}
 }

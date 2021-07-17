@@ -1,7 +1,7 @@
 <?php
 namespace Blog\View;
 
-final class Contact extends Base
+final class ContactView extends BaseView implements iView
 {
 	public function __construct()
 	{

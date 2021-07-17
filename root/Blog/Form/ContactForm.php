@@ -1,7 +1,7 @@
 <?php
 namespace Blog\Form;
 
-class Contact extends Base
+final class Contact extends BaseForm
 {
 	public function __construct()
 	{

@@ -3,7 +3,7 @@ namespace Blog\Controller;
 
 use Blog\Model as Model;
 
-class Author extends Base
+final class AuthorController extends BaseController
 {
 	public function indexAction()
 	{

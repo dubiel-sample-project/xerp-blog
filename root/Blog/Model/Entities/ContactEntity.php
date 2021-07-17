@@ -1,7 +1,7 @@
 <?php
 namespace Blog\Model\Entities;
 
-final class Contact extends Base
+final class ContactEntity extends BaseEntity
 {
 	public function __construct()
 	{

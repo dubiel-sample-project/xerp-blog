@@ -5,9 +5,10 @@ use Blog\Model as Model;
 use Blog\Form as Form;
 use Blog\Session as Session;
 
-class Blog extends Base {
-
-	public function addAction() {
+class BlogController extends BaseController 
+{
+	public function addAction() 
+	{
 		$this -> view -> title = 'Add';
 		if (Session::getInstance() -> isLoggedIn()) {
 			if (isset($_POST['action']) && strtolower($_POST['action']) == 'addentry') {
@@ -29,7 +30,8 @@ class Blog extends Base {
 		$this -> view -> render();
 	}
 
-	public function deleteAction() {
+	public function deleteAction() 
+	{
 		$model = new Model\Entry;
 
 		$id = $_GET['entry'];
@@ -38,7 +40,8 @@ class Blog extends Base {
 		
 	}
 
-	public function editAction() {
+	public function editAction() 
+	{
 		$this -> view -> title = 'Edit';
 		if (Session::getInstance() -> isLoggedIn() ) {
 			$model = new Model\Entry;

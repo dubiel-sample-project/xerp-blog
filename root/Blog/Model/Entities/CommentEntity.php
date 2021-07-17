@@ -1,7 +1,7 @@
 <?php
 namespace Blog\Model\Entities;
 
-final class Comment extends Base
+final class CommentEntity extends BaseEntity
 {
 	public function __construct()
 	{

@@ -1,17 +1,17 @@
 <?php
 namespace Blog\Form;
 
-abstract class Base
+abstract class BaseForm
 {
 	protected array $validators = [];
 	protected array $errors = [];
         
-	public function getErrors()
+	public function getErrors() : array
 	{
 		return $this->errors;
 	}
 	
-	public function hasErrors()
+	public function hasErrors() : bool
 	{
 		return count($this->errors) > 0;
 	}

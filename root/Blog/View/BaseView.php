@@ -3,11 +3,11 @@ namespace Blog\View;
 
 define('PARTIAL_PATH', __DIR__.'/partials/');
 
-abstract class Base implements iView
+abstract class BaseView
 {
-	protected static $PARTIAL_PATH = PARTIAL_PATH;
+	protected static string $PARTIAL_PATH = PARTIAL_PATH;
 	
-	protected $partialName;
+	protected string $partialName;
 
 	protected function preRender()
 	{
@@ -33,7 +33,7 @@ abstract class Base implements iView
 		$this->{$name} = $value;
 	}
 	
-	public function add($arr)
+	public function add(array $arr)
 	{
 		foreach($arr as $key => $val)
 		{
@@ -41,17 +41,17 @@ abstract class Base implements iView
 		}
 	}
 
-	public function getPartialName()
+	public function getPartialName() : string
 	{
 		return $this->partialName;
 	}
 	
-	public function setPartialName($name)
+	public function setPartialName(string $name) : string
 	{
 		$this->partialName = $name;
 	}
 	
-	public function getController()
+	public function getController() : string
 	{
 		if(isset($_GET['controller']))
 			return $_GET['controller'];
@@ -59,7 +59,7 @@ abstract class Base implements iView
 		return '';
 	}
 	
-	public function getAction()
+	public function getAction() : string
 	{
 		if(isset($_GET['action']))
 			return $_GET['action'];
@@ -67,7 +67,7 @@ abstract class Base implements iView
 		return '';
 	}
 	
-	public function getUrl()
+	public function getUrl() : string
 	{
 		$args = func_get_args();
 		$controllerName = ucfirst($args[0]);
@@ -83,12 +83,12 @@ abstract class Base implements iView
 		return substr("index.php?controller=$controllerName&action=$actionName&".$str, 0, -1);
 	}
         
-	public function hasError($fieldName)
+	public function hasError($fieldName) : bool
 	{
 		return isset($this->error[$fieldName]) && $this->error[$fieldName];
 	}
 
-	public function getError($fieldName)
+	public function getError($fieldName) : string
 	{
 		if(isset($this->error[$fieldName]))
 			return $this->error[$fieldName];
@@ -96,7 +96,7 @@ abstract class Base implements iView
 		return '';
 	}
 
-	public function getFormField($fieldName)
+	public function getFormField($fieldName) : string
 	{
 		if(isset($this->form[$fieldName]))
 			return $this->form[$fieldName];

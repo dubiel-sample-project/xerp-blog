@@ -4,9 +4,10 @@ namespace Blog\Controller;
 use Blog\Model as Model;
 use Blog\Form as Form;
 
-class Contact extends Base {
-	
-	public function indexAction() {
+class ContactController extends BaseController 
+{
+	public function indexAction() 
+	{
 		$this->view->render();
 	}
 

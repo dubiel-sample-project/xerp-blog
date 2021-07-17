@@ -19,7 +19,7 @@ class Bootstrap
 	
 	public function route()
 	{
-		$controllerName = 'Index';
+		$controllerName = 'IndexController';
 		$actionName = 'indexAction';
 			
 		if(isset($_GET['controller']))

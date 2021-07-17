@@ -3,7 +3,7 @@ namespace Blog\Controller;
 
 use Blog\Model as Model;
 
-final class Search extends Base 
+final class SearchController extends BaseController
 {
 	public function indexAction()
 	{

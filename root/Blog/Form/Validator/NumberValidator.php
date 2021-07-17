@@ -1,9 +1,9 @@
 <?php
 namespace Blog\Form\Validator;
 
-class Number extends Base
+class NumberValidator extends BaseValidator
 {
-	public function validate($val)
+	public function validate(string $val)
 	{
 		$pattern = '/^\d+$/';
 		if(!preg_match($pattern, $val))
