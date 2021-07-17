@@ -6,25 +6,9 @@ abstract class BaseController
 {
 	protected View\iView $view;
 	
-	public function __call($name, $args)
+	public function redirect(string $controller, string $action, string $id)
 	{
-		//$this->redirect('Index', 'index');
-	}
-	
-	public function redirect()
-	{
-		$args = func_get_args();
-		$controllerName = ucfirst($args[0]);
-		$actionName = strtolower($args[1]);
-		
-		$len = count($args);
-		$str = '';
-		for($i = 2; $i < $len; $i += 2)
-		{
-			$str .= $args[$i].'='.$args[$i+1].'&';
-		}
-		
-		$location = substr("index.php?controller=$controllerName&action=$actionName&".$str, 0, -1);
+		$location = "index.php?controller={$controller}&action={$action}&id={$id}";
 		header("Location:$location");
 		exit(0);
 	}

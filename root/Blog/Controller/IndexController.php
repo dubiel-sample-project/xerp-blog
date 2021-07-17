@@ -20,7 +20,7 @@ final class IndexController extends BaseController
 		$entryModel = new Model\EntryModel;
 		$commentModel = new Model\CommentModel;
 		
-		$id = $_GET['entry'];
+		$id = $_GET['id'];
 		$this->view->entryId = $id;
 		
 		$this->view->comments = $commentModel->fetchByEntry([$id]);
@@ -37,7 +37,7 @@ final class IndexController extends BaseController
 				$this->view->add(['form' => $_POST]);
 			} else {
 				$commentModel->save($_POST);
-				$this->redirect('Index', 'detail', 'entry', $id);
+				$this->redirect('Index', 'detail', 'id', $id);
 			}
 		}    
 		
@@ -48,7 +48,7 @@ final class IndexController extends BaseController
 	{
 		$model = new Model\EntryModel;
 		
-		$id = $_GET['author'];
+		$id = $_GET['id'];
 		$this->view->entries = $model->fetchByAuthor([$id]);
 		$this->view->render();
 	}

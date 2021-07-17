@@ -11,6 +11,7 @@ function autoload($class)
 {
 	//var_dump($class);
 	$filename = BASE_PATH.'/'.str_replace('\\', '/', $class).'.php';
+	//var_dump($filename);
 	require_once $filename;
 }
 spl_autoload_register(__NAMESPACE__.'\autoload');
