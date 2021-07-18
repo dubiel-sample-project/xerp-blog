@@ -4,10 +4,10 @@ use Blog\Model\Entities\BaseEntity;
 
 abstract class BaseModel
 {
-	public static string $USER = 'root';
-	public static string $PASSWORD = 'root';
-	public static string $HOST = 'mysql';
-	public static string $DB = 'blog';
+	private static string $USER = 'root';
+	private static string $PASSWORD = 'root';
+	private static string $HOST = 'mysql';
+	private static string $DB = 'blog';
 	
 	abstract protected function getEntity() : BaseEntity;
 	abstract protected function getSelectQuery() : string;
@@ -40,7 +40,7 @@ abstract class BaseModel
 		return $entities;
 	}
 
-	public function save(array $arr) : bool
+	public function save(array $arr) : int
 	{
 		$dataMap = $this->getEntity()->getDataMap();
 		$columns = [];
@@ -51,12 +51,16 @@ abstract class BaseModel
 				continue;
 			
 			$columns[] = $key;
-			$values[] = (is_numeric($val)) ? $val : "'$val'";
+			$values[] = (is_numeric($val)) ? $val : $this->pdo->quote($val);
 		}
 		
-		$stmt = $this->pdo->prepare("INSERT INTO :tablename (:columns) VALUES (:values)");
-		return $stmt->execute([':tablename' => $this->getTableName(), ':columns' => implode(',', $columns), 
-			':values' => implode(',', $values)]);
+		$columns = implode(',', $columns);
+		$values = implode(',', $values);
+		
+		$stmt = $this->pdo->query("INSERT INTO `".$this->getTableName()."` ({$columns}) VALUES ({$values})");
+		$stmt->closeCursor();
+		
+		return $this->pdo->lastInsertId();
 	}
         
 	public function edit(array $arr, string $id)
@@ -72,9 +76,7 @@ abstract class BaseModel
 		}
 		$str = substr($str, 0, -1);
 		
-		$stmt = $this->pdo->prepare("UPDATE :tablename SET :values WHERE id = :id", );
-		return $stmt->execute([':tablename' => $this->getTableName(), ':values' => $str, 
-			':id' => $id]);
+		$this->pdo->query("UPDATE `".$this->getTableName()."` SET {$str} WHERE id = {$id}");
 	}
         
 	public function delete(string $id) : bool

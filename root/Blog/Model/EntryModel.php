@@ -31,12 +31,16 @@ final class EntryModel extends BaseModel implements iModel
 		return $this->parse($this->query($query, []));	
 	}
 
-	public function fetchById(array $ids) : array
+	public function fetchById(string $id) : BaseEntity
 	{
-		$ids = implode(',', $ids);
-		$query = $this->appendQuery($this->getSelectQuery(), "WHERE e.id IN ($ids)");
-		$query = $this->appendQuery($query, 'ORDER BY e.published_date DESC');
-		return $this->parse($this->query($query, []));	
+		$query = $this->appendQuery($this->getSelectQuery(), "WHERE e.id = :id");
+		return current($this->parse($this->query($query, [':id' => $id])));	
+	}
+	
+	public function fetchByTitle(string $title) : array
+	{
+		$query = $this->appendQuery($this->getSelectQuery(), "WHERE e.title = :title");
+		return $this->parse($this->query($query, [':title' => $title]));	
 	}
 	
 	public function fetchByAuthor(array $ids) : array

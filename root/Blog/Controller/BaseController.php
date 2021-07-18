@@ -6,9 +6,9 @@ abstract class BaseController
 {
 	protected View\iView $view;
 	
-	public function redirect(string $controller, string $action, string $id)
+	public function redirect(string $controller, string $action, ?string $q = '')
 	{
-		$location = "index.php?controller={$controller}&action={$action}&id={$id}";
+		$location = "/{$controller}/{$action}/" .$q;
 		header("Location:$location");
 		exit(0);
 	}

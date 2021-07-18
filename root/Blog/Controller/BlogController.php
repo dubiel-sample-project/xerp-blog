@@ -12,6 +12,14 @@ final class BlogController extends BaseController
 		$this -> view -> title = 'Add';
 		if (Session::getInstance() -> isLoggedIn()) 
 		{
+			$formFields = [];
+			$formFields['url'] = '/blog/edit/'.$entryId;
+			$formFields['title'] = $entry -> title;
+			$formFields['author'] = $entry -> author;
+			$formFields['text'] = $entry -> text;
+			$formFields['action'] = 'editentry';
+			$this -> view -> add(['form' => $formFields]);
+			
 			if (isset($_POST['action']) && strtolower($_POST['action']) === 'addentry') 
 			{
 				$form = new Form\BlogForm;
@@ -25,7 +33,7 @@ final class BlogController extends BaseController
 					$model = new Model\EntryModel;
 					$_POST['published_date'] = time();
 					$id = $model -> save($_POST);
-					//$this->redirect('Index', 'detail', 'entry', $id);
+					$this->redirect('index', 'detail', $id);
 				}
 			}
 		}
@@ -37,9 +45,9 @@ final class BlogController extends BaseController
 	{
 		$model = new Model\EntryModel;
 
-		$id = $_GET['entry'];
+		$id = $_GET['id'];
 		$model -> delete($id);
-		$this->redirect('Index', 'index');
+		$this->redirect('index', 'index');
 	}
 
 	public function editAction() 
@@ -49,20 +57,18 @@ final class BlogController extends BaseController
 		{
 			$model = new Model\EntryModel;
 
-			$entryId = $_GET['entry'];
-			$entries = $model -> fetchById([$entryId]);
+			$entryId = $_GET['id'];
+			$entry = $model -> fetchById($entryId);
 
 			$formFields = [];
-
-			foreach ($entries as $key => $entry) 
-			{
-				$formFields['title'] = $entry -> title;
-				$formFields['author'] = $entry -> author;
-				$formFields['text'] = $entry -> text;
-			}
+			$formFields['url'] = '/blog/edit/'.$entryId;
+			$formFields['title'] = $entry -> title;
+			$formFields['author'] = $entry -> author;
+			$formFields['text'] = $entry -> text;
+			$formFields['action'] = 'editentry';
 			$this -> view -> add(['form' => $formFields]);
 
-			if (isset($_POST['action']) && strtolower($_POST['action']) === 'addentry') 
+			if (isset($_POST['action']) && strtolower($_POST['action']) === 'editentry') 
 			{
 				$form = new Form\BlogForm;
 				$form -> validate($_POST);
@@ -73,8 +79,8 @@ final class BlogController extends BaseController
 				} else {
 					$model = new Model\Entry;
 					$_POST['published_date'] = time();
-					$id = $model -> edit($_POST,$entryId);
-					$this->redirect('Index', 'detail', 'entry', $entryId);
+					$id = $model -> edit($_POST, $entryId);
+					$this->redirect('index', 'detail', $entry->title);
 				}
 			}
 		}

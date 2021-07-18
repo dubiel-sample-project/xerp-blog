@@ -17,18 +17,41 @@ final class IndexController extends BaseController
 	
 	public function detailAction()
 	{
+		$entryId = '';
+		$entry = null;
+		$this->view->entries = [];
+		$this->view->comments = [];
+
 		$entryModel = new Model\EntryModel;
+
+		if(isset($_GET['id']))
+		{
+			$entryId = $_GET['id'];
+			$entry = $entryModel->fetchById($entryId);
+		}
+		else if(isset($_GET['q']))
+		{
+			$entries = $entryModel->fetchByTitle($_GET['q']);			
+			if(count($entries) > 0)
+			{
+				$entry = current($entries);
+			}
+		}
+		else
+		{
+			$this->redirect('index', 'index');
+		}
+		
 		$commentModel = new Model\CommentModel;
 		
-		$id = $_GET['id'];
-		$this->view->entryId = $id;
-		
-		$this->view->comments = $commentModel->fetchByEntry([$id]);
-		$this->view->entries = $entryModel->fetchById([$id]);
-			
+		$entryId = $entry->id;
+		$this->view->entry = $entry;
+		$this->view->entries = [$entry];
+		$this->view->comments = $commentModel->fetchByEntry([$entryId]);
+				
 		if(isset($_POST['action']) && strtolower($_POST['action']) === 'addcomment') 
 		{
-			$form = new Form\Comment;
+			$form = new Form\CommentForm;
 			$form->validate($_POST);
 
 			if($form->hasErrors())
@@ -37,7 +60,7 @@ final class IndexController extends BaseController
 				$this->view->add(['form' => $_POST]);
 			} else {
 				$commentModel->save($_POST);
-				$this->redirect('Index', 'detail', 'id', $id);
+				$this->redirect('index', 'detail', $entry->title);
 			}
 		}    
 		
@@ -46,10 +69,28 @@ final class IndexController extends BaseController
 	
 	public function authorAction()
 	{
-		$model = new Model\EntryModel;
+		$entryModel = new Model\EntryModel;
 		
-		$id = $_GET['id'];
-		$this->view->entries = $model->fetchByAuthor([$id]);
+		$this->view->entries = [];
+		if(isset($_GET['id']))
+		{
+			$id = $_GET['id'];
+			$this->view->entries = $entryModel->fetchByAuthor([$id]);
+		}
+		else if(isset($_GET['q']))
+		{
+			$authorModel = new Model\AuthorModel;
+			$author = $authorModel->fetchByFullname($_GET['q']);
+			if($author)
+			{
+				$this->view->entries = $entryModel->fetchByAuthor([$author->id]);
+			}		
+		}
+		else
+		{
+			$this->redirect('index', 'index');
+		}
+		
 		$this->view->render();
 	}
 	
@@ -57,18 +98,21 @@ final class IndexController extends BaseController
 	{
 		$model = new Model\AuthorModel;
 		
-		$name = $_POST['name'];
-		$pass = $_POST['pass'];
-		
-		if(!empty($name) && !empty($pass))
+		if(isset($_POST['email']))
 		{
-			$authorId = $model->fetchByLogin($name, $pass);
-			if(!empty($authorId))
+			$author = $model->fetchByEmail($_POST['email']);
+			if($author)
 			{
-				Session::getInstance()->set('author_id', $authorId);
-				  $this->redirect('Index', 'index');
+				if(!password_verify($_POST['password'], $author->password))
+				{
+					$this->redirect('index', 'login');
+				}
+				
+				Session::getInstance()->set('author_id', $author->id);
+				$this->redirect('index', 'index');
 			}			
 		}
+		
 		$this->view->setPartialName('login.phtml');
 		$this->view->render();
 	}

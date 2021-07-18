@@ -1,9 +1,7 @@
-<form name="comment" method="get" action="">
+<form name="search" method="get" action="<?php echo $this->getUrl('search', 'search'); ?>">
 <div><input type="input" name="term" value="<?php echo $this->getFormField('term'); ?>"/></div>
 <input type="submit" name="senden" />
-			<input type="hidden" name="controller" value="<?php echo $this->getController(); ?>"/>
-			<input type="hidden" name="action" value="<?php echo $this->getAction(); ?>"/>
-				</form>
+</form>
 <?php
 	$this->renderPartial('index.phtml', array('entries' => $this->entries)); 
  ?>

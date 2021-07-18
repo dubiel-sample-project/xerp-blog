@@ -20,7 +20,7 @@
 </div>
 <br/>
 <div>
-	<form name="comment" method="post" action="<?php echo $this->getUrl($this->getController(), $this->getAction(), 'entry', $this->entryId); ?>">
+	<form name="comment" method="post" action="<?php echo $this->getUrl($this->getController(), $this->getAction(), $this->entry->title); ?>">
 		<table>
                         <tr>
                             <td colspan="2">Add a new Comment:</td>
@@ -62,7 +62,7 @@
 			</tr>
 		</table>
 		<input type="hidden" name="action" value="addcomment"/>
-		<input type="hidden" name="entry" value="<?php echo $this->entryId; ?>"/>
+		<input type="hidden" name="entry" value="<?php echo $this->entry->id; ?>"/>
 		<input type="hidden" name="fToken" value="<?php echo $this->formToken; ?>"/>
 	</form>
 </div>

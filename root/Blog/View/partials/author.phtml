@@ -2,9 +2,9 @@
 	<table>
 <?php foreach ($this->authors as $key => $value): ?>
 <tr>
-	<td><a href="<?php echo $this->getUrl('index', 'author', 'author', $value->id); ?>"><?php echo $value->fullname; ?></a></td>
-	<td><a href="<?php echo $value->email; ?>"><?php echo $value->email; ?></a></td>
-	<td><a href="<?php echo $value->url; ?>"><?php echo $value->url; ?></a></td>
+	<td><a href="<?php echo $this->getUrl('index', 'author', $value->fullname); ?>"><?php echo $value->fullname; ?></a></td>
+	<td><a href="#"><?php echo $value->email; ?></a></td>
+	<td><a href="//<?php echo $value->url; ?>"><?php echo $value->url; ?></a></td>
 </tr>	
 <?php endforeach ?>
 	</table>

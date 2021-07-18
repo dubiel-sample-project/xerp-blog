@@ -25,9 +25,9 @@ final class CommentModel extends BaseModel implements iModel
 		return $this->parse($this->query($query, []));	
 	}
 
-	public function fetchById(array $ids) : array
+	public function fetchById(string $id) : BaseEntity
 	{
-		return $this->fetch($ids);
+		return current($this->fetch([$id]));
 	}
 	
 	public function fetchByEntry(array $ids) : array
@@ -39,6 +39,7 @@ final class CommentModel extends BaseModel implements iModel
 	{
 		$ids = implode(',', $ids);
 		$query = $this->appendQuery($this->getSelectQuery(), "WHERE entry IN ($ids)");
+		$query = $this->appendQuery($query, "ORDER BY id DESC");
 		return $this->parse($this->query($query, []));
 	}	
 }

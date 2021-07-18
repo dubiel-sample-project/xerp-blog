@@ -67,20 +67,9 @@ abstract class BaseView
 		return '';
 	}
 	
-	public function getUrl() : string
+	public function getUrl(string $controller, string $action, ?string $q = '') : string
 	{
-		$args = func_get_args();
-		$controllerName = ucfirst($args[0]);
-		$actionName = strtolower($args[1]);
-		
-		$len = count($args);
-		$str = '';
-		for($i = 2; $i < $len; $i += 2)
-		{
-			$str .= $args[$i].'='.$args[$i+1].'&';
-		}
-		
-		return substr("index.php?controller={$controllerName}&action={$actionName}&".$str, 0, -1);
+		return "/{$controller}/{$action}/".$q;
 	}
         
 	public function hasError(string $fieldName) : bool

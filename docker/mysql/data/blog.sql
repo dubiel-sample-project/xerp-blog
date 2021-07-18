@@ -27,8 +27,11 @@ CREATE TABLE `author` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstname` char(255) NOT NULL,
   `lastname` char(255) NOT NULL,
+  `fullname` char(255) NOT NULL,
   `email` char(255) NOT NULL,
   `url` char(255) NOT NULL,
+  `password` char(255) NOT NULL,
+  UNIQUE(`email`),
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,7 +42,7 @@ CREATE TABLE `author` (
 
 LOCK TABLES `author` WRITE;
 /*!40000 ALTER TABLE `author` DISABLE KEYS */;
-INSERT INTO `author` VALUES (1,'author','one','a@a.com','www.one.com'),(2,'author','two','b@b.com','www.two.com'),(3,'author','three','c@c.com','www.three.com'),(4,'author','four','d@d.com','www.four.com');
+INSERT INTO `author` VALUES (1,'author','one','author one','author@one.com','www.one.com','$2y$10$IJkfMjqDirzgOVO7ELVyAuk8bW60G1drhibpV23dOiwJ1QevfEGEO'),(2,'author','two','author two','author@two.com','www.two.com','$2y$10$ShIJOHWi/9Yz7jyRkJ.1ruURf3Hd74BC48ujgRm.4BVVUA/3Ufycy'),(3,'author','three','author three','author@three.com','www.three.com','$2y$10$YuduswAbE215dcqgDhgS7.vf7Zo5xAglkCb1Da.8NmmgcCSUlvPuO'),(4,'author','four','author four','author@four.com','www.four.com','$2y$10$BOWk6j/I0IKquUVFKMmnie4lCM21vjL.SPd/rpPzHJr.eakmQYmd6');
 /*!40000 ALTER TABLE `author` ENABLE KEYS */;
 UNLOCK TABLES;
 

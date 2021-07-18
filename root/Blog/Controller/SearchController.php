@@ -8,8 +8,7 @@ final class SearchController extends BaseController
 	public function indexAction()
 	{
 		$model = new Model\EntryModel;
-		
-		$term = $_GET['term'];
+		$term = $_GET['q'];
 		
 		$this->view->entries = [];
 		if(!empty($term))
@@ -20,4 +19,8 @@ final class SearchController extends BaseController
 		$this->view->render();
 	}
 
+	public function searchAction()
+	{	
+		$this->redirect('search', 'index', $_GET['term']);
+	}
 }

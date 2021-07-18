@@ -1,6 +1,6 @@
 <?php use Blog\Session as Session; ?>
 <div>
-	<form name="addentry" method="post" action="">
+	<form name="entry" method="post" action="<?php echo $this->getFormField('url'); ?>">
 		<table>
                         <tr>
                             <td colspan="2"><?php echo $this->title; ?> an entry:</td>
@@ -25,7 +25,7 @@
 				<td colspan="2"><input type="submit" name="senden" /></td>
 			</tr>
 		</table>
-		<input type="hidden" name="action" value="addentry"/>
+		<input type="hidden" name="action" value="<?php echo $this->getFormField('action'); ?>"/>
 		<input type="hidden" name="author" value="<?php echo Session::getInstance()->get('author_id'); ?>"/>
 	</form>
 </div>

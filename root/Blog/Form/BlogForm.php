@@ -5,8 +5,8 @@ final class BlogForm extends BaseForm
 {
 	public function __construct()
 	{
-		$this->addValidator('title', new Validator\Required);
-		$this->addValidator('content', new Validator\Required);
+		$this->addValidator('title', new Validator\RequiredValidator);
+		$this->addValidator('content', new Validator\RequiredValidator);
 	}	
 
 }

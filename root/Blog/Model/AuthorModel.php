@@ -11,7 +11,7 @@ final class AuthorModel extends BaseModel implements iModel
 	
 	protected function getSelectQuery() : string
 	{
-		return "SELECT id, concat(firstname, ' ', lastname) as fullname, email, url FROM author";
+		return "SELECT id, firstname, lastname, fullname, email, url, password FROM author";
 	}
 	
 	protected function getTableName() : string
@@ -26,18 +26,22 @@ final class AuthorModel extends BaseModel implements iModel
 		return $this->parse($this->query($query, []));	
 	}
 
-	public function fetchById(array $ids) : array
+	public function fetchById(string $id) : BaseEntity
 	{
-		$ids = implode(',', $ids);
-		$query = $this->appendQuery($this->getSelectQuery(), "WHERE e.id IN ($ids)");
-		$query = $this->appendQuery($query, 'ORDER BY lastname');
-		return $this->parse($this->query($query, []));	
+		$query = $this->appendQuery($this->getSelectQuery(), "WHERE id = :id");
+		return current($this->parse($this->query($query, [':id' => $id])));	
 	}
 	
-	public function fetchByLogin(string $lastname, string $pass) : array
+	public function fetchByFullname(string $fullname) : BaseEntity
 	{
-		$query = "SELECT id FROM author WHERE lastname=:lastname AND pass=:pass";
-		return $this->query($query, [':lastname' => $lastname, ':pass' => $pass]);
+		$query = $this->appendQuery($this->getSelectQuery(), "WHERE fullname = :fullname");
+		return current($this->parse($this->query($query, [':fullname' => $fullname])));	
+	}
+	
+	public function fetchByEmail(string $email) : BaseEntity
+	{
+		$query = $this->appendQuery($this->getSelectQuery(), "WHERE email=:email");
+		return current($this->parse($this->query($query, [':email' => $email])));
 	}
 
 }
