@@ -13,11 +13,10 @@ final class BlogController extends BaseController
 		if (Session::getInstance() -> isLoggedIn()) 
 		{
 			$formFields = [];
-			$formFields['url'] = '/blog/edit/'.$entryId;
-			$formFields['title'] = $entry -> title;
-			$formFields['author'] = $entry -> author;
-			$formFields['text'] = $entry -> text;
-			$formFields['action'] = 'editentry';
+			$formFields['url'] = '/blog/add/'.$entryId;
+			$formFields['title'] = '';
+			$formFields['text'] = '';
+			$formFields['action'] = 'addentry';
 			$this -> view -> add(['form' => $formFields]);
 			
 			if (isset($_POST['action']) && strtolower($_POST['action']) === 'addentry') 
@@ -63,7 +62,6 @@ final class BlogController extends BaseController
 			$formFields = [];
 			$formFields['url'] = '/blog/edit/'.$entryId;
 			$formFields['title'] = $entry -> title;
-			$formFields['author'] = $entry -> author;
 			$formFields['text'] = $entry -> text;
 			$formFields['action'] = 'editentry';
 			$this -> view -> add(['form' => $formFields]);
@@ -77,7 +75,7 @@ final class BlogController extends BaseController
 					$this -> view -> add(['error' => $form -> getErrors()]);
 					$this -> view -> add(['form' => $_POST]);
 				} else {
-					$model = new Model\Entry;
+					$model = new Model\EntryModel;
 					$_POST['published_date'] = time();
 					$id = $model -> edit($_POST, $entryId);
 					$this->redirect('index', 'detail', $entry->title);
