@@ -1,7 +1,7 @@
 <?php
 namespace Blog;
 
-class Bootstrap
+final class Bootstrap
 {
 	private static $inst = null;
 

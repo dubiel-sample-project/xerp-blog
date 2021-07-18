@@ -1,7 +1,7 @@
 <?php
 namespace Blog;
 
-class Session
+final class Session
 {
 	private static $inst = null;
 

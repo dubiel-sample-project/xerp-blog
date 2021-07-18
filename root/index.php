@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL ^ E_NOTICE);
 //ini_set('display_startup_errors', 1);
 define('BASE_PATH', $_SERVER['DOCUMENT_ROOT']);
-define('SITE_PATH', $_SERVER['SERVER_NAME'].'/Blog/');
+//define('SITE_PATH', $_SERVER['SERVER_NAME']);
 
 function autoload($class)
 {
