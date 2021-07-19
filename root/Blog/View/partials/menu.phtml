@@ -1,25 +1,27 @@
 <?php use Blog\Session as Session; ?>
-<table>
-	<tr>
-		<td><a href="<?php echo $this->getUrl('index', 'index'); ?>">Startseite</a></td>
-		<?php if(!Session::getInstance()->isLoggedIn()){ ?>
-		
-		<td><a href="<?php echo $this->getUrl('index', 'login'); ?>">login</a></td>
-		
-		<?php } ?>
-		<?php if(Session::getInstance()->isLoggedIn()){ ?>
-		
-		<td><a href="<?php echo $this->getUrl('blog', 'add'); ?>">Add a blog</a></td>
-		
-		<?php } ?>
-		<td><a href="<?php echo $this->getUrl('author', 'index'); ?>">Authors</a></td>
-		<td><a href="<?php echo $this->getUrl('search', 'index'); ?>">Suche</a></td>
-		<?php if(Session::getInstance()->isLoggedIn()){ ?>
-		
-		<td><a href="<?php echo $this->getUrl('index', 'logout'); ?>">logout</a></td>
-		
-		<?php } ?>
-		
-		<td><a href="<?php echo $this->getUrl('contact', 'add'); ?>">Contact</a></td>
-	</tr>
-</table>
+<!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="/">Blog</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?php echo $this->getUrl('index', 'index'); ?>">Home</a></li>
+						<?php if(Session::getInstance()->isLoggedIn()){ ?>
+							<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?php echo $this->getUrl('blog', 'add'); ?>">Add a Blog Post</a></li>
+						<?php } else { ?>
+							<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?php echo $this->getUrl('index', 'login'); ?>">Login</a></li>
+						<?php } ?>
+						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?php echo $this->getUrl('author', 'index'); ?>">Authors</a></li>
+						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?php echo $this->getUrl('search', 'index'); ?>">Search</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?php echo $this->getUrl('contact', 'contact'); ?>">Contact</a></li>
+                        <?php if(Session::getInstance()->isLoggedIn()){ ?>
+							<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?php echo $this->getUrl('index', 'logout'); ?>">Logout</a></li>
+						<?php } ?>
+                    </ul>
+                </div>
+            </div>
+        </nav>

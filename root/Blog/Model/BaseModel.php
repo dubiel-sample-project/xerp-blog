@@ -1,6 +1,6 @@
 <?php
 namespace Blog\Model;
-use Blog\Model\Entities\BaseEntity;
+use Blog\Model\Entity\BaseEntity;
 
 abstract class BaseModel
 {

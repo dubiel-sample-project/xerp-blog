@@ -1,12 +1,12 @@
 <?php
 namespace Blog\Model;
-use Blog\Model\Entities\BaseEntity;
+use Blog\Model\Entity\BaseEntity;
 
 final class CommentModel extends BaseModel implements iModel
 {
 	protected function getEntity() : BaseEntity 
 	{
-		return new Entities\CommentEntity();		
+		return new Entity\CommentEntity();		
 	}
 	
 	protected function getSelectQuery() : string

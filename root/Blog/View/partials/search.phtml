@@ -1,8 +1,19 @@
-<form name="search" method="get" action="<?php echo $this->getUrl('search', 'search'); ?>">
-<div><input type="input" name="term" value="<?php echo $this->getFormField('term'); ?>"/></div>
-<input type="submit" name="senden" />
-</form>
-<?php
-	$this->renderPartial('index.phtml', array('entries' => $this->entries)); 
- ?>
+<!-- Main Content-->
+        <main class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+						<form name="search" method="get" action="<?php echo $this->getUrl('search', 'search'); ?>">
+						<input type="search" name="term" size="30" value="<?php echo $this->getFormField('term'); ?>"/>
+						<input type="submit" name="senden" value="Search" />
+						</form>
+						<?php if($this->term && count($this->entries) === 0) { ?>No results found.<?php } ?>
+					</div>
+				</div>
+			</div>
+        </main>
+		<?php if(count($this->entries) > 0) {
+				$this->renderPartial('index.phtml', array('entries' => $this->entries));
+		} ?>
+				
 		

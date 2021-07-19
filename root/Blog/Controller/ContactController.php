@@ -11,13 +11,13 @@ final class ContactController extends BaseController
 		$this->view->render();
 	}
 
-	public function addAction() 
+	public function contactAction() 
 	{
 		$model = new Model\AuthorModel;
 
 		$this -> view -> authors = $model -> fetchAll();
 		
-		if (isset($_POST['action']) && strtolower($_POST['action']) === 'addentry') 
+		if (isset($_POST['action']) && strtolower($_POST['action']) === 'contactentry') 
 		{
 			$form = new Form\ContactForm;
 			$form->validate($_POST);
@@ -28,10 +28,6 @@ final class ContactController extends BaseController
 				$this->view->add(array('form' => $_POST));
 
 			} else {
-				//$model = new Model\Entry;
-				//$_POST['published_date'] = time();
-				//$id = $model -> save($_POST);
-				//$this->redirect('Index', 'detail', 'entry', $id);
 			}
 		}
 

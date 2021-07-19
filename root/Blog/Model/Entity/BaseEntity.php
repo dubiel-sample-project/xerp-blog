@@ -1,5 +1,5 @@
 <?php
-namespace Blog\Model\Entities;
+namespace Blog\Model\Entity;
 
 abstract class BaseEntity
 {

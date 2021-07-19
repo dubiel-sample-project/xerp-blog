@@ -109,7 +109,7 @@ final class IndexController extends BaseController
 				}
 				
 				Session::getInstance()->set('author_id', $author->id);
-				$this->redirect('index', 'index');
+				$this->redirect('index', 'author', $author->fullname);
 			}			
 		}
 		

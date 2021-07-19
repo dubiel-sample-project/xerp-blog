@@ -1,11 +1,15 @@
-<div>
-	<table>
+<main class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
 <?php foreach ($this->authors as $key => $value): ?>
-<tr>
-	<td><a href="<?php echo $this->getUrl('index', 'author', $value->fullname); ?>"><?php echo $value->fullname; ?></a></td>
-	<td><a href="#"><?php echo $value->email; ?></a></td>
-	<td><a href="//<?php echo $value->url; ?>"><?php echo $value->url; ?></a></td>
-</tr>	
+	<p>
+	<a href="<?php echo $this->getUrl('index', 'author', $value->fullname); ?>"><?php echo $value->fullname; ?></a>
+	<br/>
+	<a href="#"><?php echo $value->email; ?></a>
+	<br/>
+	<a href="//<?php echo $value->url; ?>"><?php echo $value->url; ?></a>
+	<br/>
+	</p>
 <?php endforeach ?>
-	</table>
-</div>
+<div>

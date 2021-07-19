@@ -1,5 +1,5 @@
 <?php
-namespace Blog\Model\Entities;
+namespace Blog\Model\Entity;
 
 final class CommentEntity extends BaseEntity
 {

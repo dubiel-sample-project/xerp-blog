@@ -1,12 +1,12 @@
 <?php
 namespace Blog\Model;
-use Blog\Model\Entities\BaseEntity;
+use Blog\Model\Entity\BaseEntity;
 
 final class AuthorModel extends BaseModel implements iModel
 {
 	protected function getEntity() : BaseEntity
 	{
-		return new Entities\AuthorEntity();		
+		return new Entity\AuthorEntity();		
 	}
 	
 	protected function getSelectQuery() : string

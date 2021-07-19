@@ -1,9 +1,9 @@
 # xerp-blog
 Simple PHP Blog
 
-PHP 7.4
-MYSQL 5.7
-NGINX 1.17.8 
+* PHP 7.4
+* MYSQL 5.7
+* NGINX 1.17.8 
 
 ## Overview
 
@@ -11,10 +11,20 @@ The blog is based on a MVC architecture with the following namespaces:
 
 * Blog\Controller\
 * Blog\Model\
+* Blog\Model\Entity\
 * Blog\View\
+* Blog\Form\
+* Blog\Form\Validator\
 
-The controllers are used to handle requests and retrieve Entities using the Models. 
+The controllers are used to handle requests and retrieve Entities using Models. 
 The data is then passed onto the Views which render the output using partials.
+
+The login credentials are:
+
+author@one.com : authorone
+author@two.com : authortwo
+author@three.com : authorthree
+author@four.com : authorfour
 
 ## Installation
 

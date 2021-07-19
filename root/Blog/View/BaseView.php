@@ -13,6 +13,7 @@ abstract class BaseView
 	{
 		include_once self::$PARTIAL_PATH.'header.phtml';
 		include_once self::$PARTIAL_PATH.'menu.phtml';
+		include_once self::$PARTIAL_PATH.'pageheader.phtml';
 	}
 	
 	protected function postRender()

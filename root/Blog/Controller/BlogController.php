@@ -46,7 +46,13 @@ final class BlogController extends BaseController
 
 		$id = $_GET['id'];
 		$model -> delete($id);
-		$this->redirect('index', 'index');
+		
+		if(Session::getInstance()->isLoggedIn())
+		{
+			$this->redirect('index', 'author', Session::getInstance()->get('author_id'));
+		} else {
+			$this->redirect('index', 'index');
+		}
 	}
 
 	public function editAction() 
