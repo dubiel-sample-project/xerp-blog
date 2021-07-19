@@ -21,9 +21,9 @@ The data is then passed onto the Views which render the output using partials.
 
 The login credentials are:
 
-author@one.com : authorone
-author@two.com : authortwo
-author@three.com : authorthree
+author@one.com : authorone\
+author@two.com : authortwo\
+author@three.com : authorthree\
 author@four.com : authorfour
 
 ## Installation
